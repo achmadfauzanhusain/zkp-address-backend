@@ -25,7 +25,7 @@ module.exports = {
     },
     login : async(req, res) => {
         try {
-            const { address, proof, publicSignals } = req.body
+            const { proof, publicSignals } = req.body
 
             // const checkAddress = addresses[address]
             // console.log(checkAddress)
