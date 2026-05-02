@@ -23,6 +23,8 @@ module.exports = {
             const hashValue = poseidon([BigInt(address)]);
             const hash = poseidon.F.toString(hashValue);
 
+            addresses[hash] = hash
+
             res.status(200).json({ message: "Success", data: hash })
         } catch (error) {
             res.status(500).json({ message: 'Internal Server Error' });
