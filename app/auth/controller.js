@@ -7,9 +7,7 @@ const { hash } = require('crypto');
 
 const vKey = JSON.parse(fs.readFileSync(path.join(__dirname, "../../zk/verification-key.json")))
 
-let addresses = {
-    "1246254232611659900859275708950704372506712141612608580836537858378470542983": "1246254232611659900859275708950704372506712141612608580836537858378470542983"
-}
+let addresses = {}
 
 module.exports = {
     register: async(req, res) => {
@@ -20,13 +18,13 @@ module.exports = {
                 return res.status(400).json({ message: 'Address is required' })
             }
             
-            if(addresses[address]) {
-                return res.status(400).json({ message: 'Address is already registered' })
-            }
             const poseidon = await buildPoseidon();
             const hashValue = poseidon([BigInt(address)]);
             const hash = poseidon.F.toString(hashValue);
 
+            if(addresses[hash]) {
+                return res.status(400).json({ message: 'Address is already registered' })
+            }
             addresses[hash] = hash
 
             res.status(200).json({ message: "Success", data: hash })
