@@ -19,6 +19,10 @@ module.exports = {
             if(!address) {
                 return res.status(400).json({ message: 'Address is required' })
             }
+            
+            if(addresses[address]) {
+                return res.status(400).json({ message: 'Address is already registered' })
+            }
             const poseidon = await buildPoseidon();
             const hashValue = poseidon([BigInt(address)]);
             const hash = poseidon.F.toString(hashValue);
